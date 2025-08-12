@@ -27,7 +27,7 @@ import ContinuumHealthTools from "./ContinuumHealthTools";
 import WellnessTrackerV2 from "./WellnessTrackerV2";
 import ChronicDiseaseBlock from "./ChronicDiseaseBlock";
 import ChronicMedicationBlock from "./ChronicMedicationBlock";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/Card";
 import { useCaseContext } from "./CaseContext";
 
 // --- Glassy Collapsible Section Helper ---

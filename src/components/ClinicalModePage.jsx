@@ -8,7 +8,7 @@ import TranscribeAndDisplayBox from "./TranscribeAndDisplayBox";
 import UniversalTranscriberBox from "./UniversalTranscriberBox";
 import LexBrainOutputPanel from "./LexBrainOutputPanel";
 import LexReportViewer from "./LexReportViewer";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default function ClinicalModePage(props) {
   const {

@@ -153,18 +153,19 @@ const LexBrainOutputPanel = ({ summary }) => {
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="What did Lex get right or wrong?" style={{ background:"#111827", color:"#E5E7EB", border:"1px solid #334155", borderRadius:8 }}
+          placeholder="What did Lex get right or wrong?"
           style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            marginBottom: '1rem',
+            background: "#111827",
+            color: "#E5E7EB",
+            border: "1px solid #334155",
+            borderRadius: 8,
+            width: "100%",
+            padding: "0.75rem",
+            fontSize: "1rem",
+            marginBottom: "1rem",
           }}
         />
-
-        {!submitted ? (
+{!submitted ? (
           <button onClick={handleSubmit} style={{
             padding: '0.6rem 1.25rem',
             backgroundColor: '#007bff',

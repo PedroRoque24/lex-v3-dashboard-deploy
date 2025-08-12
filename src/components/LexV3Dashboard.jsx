@@ -1,8 +1,8 @@
 import { memoryUrl } from '../lib/api';
 import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/components/ui/tooltip";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/Button";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { Card, CardContent } from "@/components/ui/Card";
 import Sidebar from "./ui/Sidebar";
 import LiveLexChat from "./LiveLexChat";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
