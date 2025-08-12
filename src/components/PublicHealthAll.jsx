@@ -1,6 +1,6 @@
 import { memoryUrl } from '../lib/api';
 import React, { useState } from "react";
-import AccordionSection from "./ui/AccordionSection"; // Adjust path if needed
+import AccordionSection from "./ui/AccordionSectionSection"; // Adjust path if needed
 
 import PublicOutbreakReport from "./PublicOutbreakReport";
 import PublicPrevalenceCalculator from "./PublicPrevalenceCalculator";
