@@ -231,3 +231,4 @@ const LexBurningBush = ({ size = SIZE, style = {}, className = "" }) => {
 };
 
 export default LexBurningBush;
+

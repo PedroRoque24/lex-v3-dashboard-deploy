@@ -130,3 +130,4 @@ export default function LibraryTranscriber({ open, onClick, section }) {
     </div>
   );
 }
+

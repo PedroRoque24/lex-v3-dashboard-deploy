@@ -124,3 +124,4 @@ export default function LibraryKnowledgeJournal({ open, onClick, section }) {
     </div>
   );
 }
+

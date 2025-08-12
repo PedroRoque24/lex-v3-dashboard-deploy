@@ -288,3 +288,4 @@ function LectureOutputPanel({ lectureText }) {
 }
 
 export default LectureOutputPanel;
+

@@ -14,3 +14,4 @@ export function Card({ children, className = "" }) {
 export function CardContent({ children }) {
   return <div className="text-white space-y-2">{children}</div>;
 }
+

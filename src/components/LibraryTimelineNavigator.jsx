@@ -74,3 +74,4 @@ export default function LibraryTimelineNavigator({ open, onClick, section }) {
     </div>
   );
 }
+

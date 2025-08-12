@@ -35,3 +35,4 @@ export function Tabs({ defaultValue, children }) {
 export function Tab({ children }) {
   return <div className="mt-6">{children}</div>;
 }
+

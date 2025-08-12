@@ -323,3 +323,4 @@ export default function LibraryReportGenerator({ open, onClick, section }) {
     </div>
   );
 }
+

@@ -150,3 +150,4 @@ function QuizSelector({ quizData }) {
 }
 
 export default QuizSelector;
+

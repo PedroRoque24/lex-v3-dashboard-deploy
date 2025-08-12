@@ -85,3 +85,4 @@ export default function BrainSelector({ selected, onSelect }) {
     </Card>
   );
 }
+

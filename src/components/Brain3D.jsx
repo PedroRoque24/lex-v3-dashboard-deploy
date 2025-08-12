@@ -45,3 +45,4 @@ export default function Brain3D({ selected }) {
     </div>
   );
 }
+

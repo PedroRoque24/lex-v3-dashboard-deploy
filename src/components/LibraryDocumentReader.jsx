@@ -116,3 +116,4 @@ export default function LibraryDocumentReader({ open, onClick, section }) {
     </div>
   );
 }
+
