@@ -1,0 +1,47 @@
+/* Root container with Tailwind compatibility */
+#root {
+  @apply max-w-screen-xl mx-auto p-4 text-center;
+}
+
+/* Logo styles (compatible and non-conflicting) */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+/* Spin animation explicitly preserved */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Explicitly preserved media query (no conflicts) */
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Card style explicitly adjusted for Tailwind */
+.card {
+  @apply bg-gray-800 text-white p-4 rounded-xl shadow-lg;
+}
+
+/* Text explicitly adjusted for Tailwind */
+.read-the-docs {
+  @apply text-gray-400;
+}
