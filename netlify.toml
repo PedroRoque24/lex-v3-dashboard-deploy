@@ -1,4 +1,4 @@
-﻿[[redirects]]
+[[redirects]]
   from = "/api/*"
   to   = "https://ca8f7c19b578.ngrok-free.app/api/:splat"
   status = 200
