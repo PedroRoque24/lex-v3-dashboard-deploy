@@ -1,7 +1,8 @@
 ﻿/memory/*     https://web-production-ea504.up.railway.app/:splat              200
-/api/*        https://ca8f7c19b578.ngrok-free.app/api/:splat                  200
-/lex/*        https://ca8f7c19b578.ngrok-free.app/lex/:splat                  200
-/teacher/*    https://ca8f7c19b578.ngrok-free.app/teacher/:splat              200
-/continuum/*  https://ca8f7c19b578.ngrok-free.app/continuum/:splat            200
-/symbolic/*   https://ca8f7c19b578.ngrok-free.app/symbolic/:splat             200
-/shadow/*     https://ca8f7c19b578.ngrok-free.app/shadow/:splat               200
+/api/*            https://ff310c15a13e.ngrok-free.app/api/:splat            200
+/lex/*            https://ff310c15a13e.ngrok-free.app/lex/:splat            200
+/teacher/*        https://ff310c15a13e.ngrok-free.app/teacher/:splat        200
+/continuum/*      https://ff310c15a13e.ngrok-free.app/continuum/:splat      200
+/shadow/*         https://ff310c15a13e.ngrok-free.app/shadow/:splat         200
+/symbolic-api/*   https://ff310c15a13e.ngrok-free.app/symbolic-api/:splat   200
+/*                /index.html                                              200

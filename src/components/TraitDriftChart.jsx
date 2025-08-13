@@ -99,8 +99,8 @@ export default function TraitDriftChart() {
 
         // Load from both files
         const [timelineData, symbolicData] = await Promise.allSettled([
-          fetchJson("/memory/trait_drift_timeline.json"),
-          fetchJson("/memory/symbolic_trait_drift_log.json"),
+          fetchJson("/memory/trait_drift_timeline.json").catch(()=>fetchJson("/trait_drift_timeline.json")),
+          fetchJson("/memory/symbolic_trait_drift_log.json").catch(()=>fetchJson("/symbolic_trait_drift_log.json")),
         ]);
 
         let combined = [];

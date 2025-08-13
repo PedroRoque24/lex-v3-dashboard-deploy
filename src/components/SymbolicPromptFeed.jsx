@@ -2,6 +2,16 @@
 import { memoryUrl } from '../lib/api';
 import React, { useEffect, useState } from "react";
 
+async function loadFirstAvailablePrompt() {
+  const txt = ["shadow_memory/brain-thought.txt","brain-thought.txt","shadow_memory/prompt.txt"];
+  for (const p of txt) { try { const r = await fetch(`/memory/${p}`); if (r.ok) return {type:"txt", body: await r.text()}; } catch {} }
+  const jsons = ["shadow_memory/latest_prompt.json","latest_prompt.json","shadow_memory/prompt.json"];
+  for (const p of jsons) { try { const r = await fetch(`/memory/${p}`); if (r.ok) return {type:"json", body: await r.json()}; } catch {} }
+  try { const r2 = await fetch(`/brain-thought.txt`); if (r2.ok) return {type:"txt", body: await r2.text()}; } catch {}
+  return null;
+}
+
+
 export default function SymbolicPromptFeed() {
   const [thought, setThought] = useState("");
   const [isValid, setIsValid] = useState(true);

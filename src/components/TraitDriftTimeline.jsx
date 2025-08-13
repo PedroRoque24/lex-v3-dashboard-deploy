@@ -77,7 +77,7 @@ export default function TraitDriftTimeline() {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch("/memory/trait_drift_timeline.json", { cache: "no-store" });
+        const res = await fetch("/memory/trait_drift_timeline.json", { cache: "no-store" }).catch(()=>fetch("/trait_drift_timeline.json", { cache: "no-store" }));
         const json = await res.json();
         if (cancelled) return;
         // First try windowed data

@@ -2,6 +2,23 @@
 import { memoryUrl } from '../lib/api';
 import React, { useEffect, useState } from "react";
 
+async function listFiles(glob) {
+  try { const r = await fetch(`/api/list-files?glob=${encodeURIComponent(glob)}`, { cache: "no-store" }); if (!r.ok) return []; return await r.json(); } catch { return []; }
+}
+async function loadFirstAvailableContradictions() {
+  for (const p of ["shadow_memory/contradictions.json"]) {
+    try { const r = await fetch(`/memory/${p}`, { cache: "no-store" }); if (r.ok) return await r.json(); } catch {}
+  }
+  for (const g of ["shadow_memory/**/contradictions*.json"]) {
+    const files = (await listFiles(g)).sort().reverse();
+    for (const f of files) { try { const r = await fetch(`/memory/${f}`, { cache: "no-store" }); if (r.ok) return await r.json(); } catch {} }
+  }
+  try { const r2 = await fetch(`/contradictions.json`, { cache: "no-store" }); if (r2.ok) return await r2.json(); } catch {}
+  return [];
+}
+
+
+
 /**
  * Shows latest contradiction with graceful fallbacks.
  * Source: /memory/contradictions.json (array)
@@ -10,14 +27,7 @@ export default function ContradictionViewer() {
   const [item, setItem] = useState(null);
 
   useEffect(() => {
-    fetch("/memory/contradictions.json", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data) => {
-        const arr = Array.isArray(data) ? data : [];
-        const latest = arr.slice().sort((a,b)=> new Date(b.ts || b.timestamp || 0) - new Date(a.ts || a.timestamp || 0))[0];
-        setItem(latest || null);
-      })
-      .catch(() => setItem(null));
+    loadFirstAvailableContradictions().then((data)=>{ const arr = Array.isArray(data) ? data : []; const latest = arr.slice().sort((a,b)=> new Date(b.ts || b.timestamp || 0) - new Date(a.ts || a.timestamp || 0))[0]; setItem(latest || null); }).catch(()=> setItem(null));
   }, []);
 
   return (

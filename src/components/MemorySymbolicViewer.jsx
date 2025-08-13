@@ -2,6 +2,20 @@
 import { memoryUrl } from '../lib/api';
 import React, { useEffect, useState } from "react";
 
+async function loadSymbolicMemory() {
+  // Try JSON rollups
+  const candidates = ["symbolic_memory.json", "long_memory_index.json", "shadow_memory/symbolic_memory.json"];
+  for (const p of candidates) {
+    try { const r = await fetch(`/memory/${p}`, { cache: "no-store" }); if (r.ok) return { type:"json", body: await r.json() }; } catch {}
+  }
+  // Offline fallbacks
+  for (const p of ["symbolic_memory.json","long_memory_index.json"]) {
+    try { const r = await fetch(`/${p}`, { cache: "no-store" }); if (r.ok) return { type:"json", body: await r.json() }; } catch {}
+  }
+  return null;
+}
+
+
 /**
  * Memory panel — prefer symbolic_memory.json; fallback to long_memory_index.json.
  */
@@ -14,9 +28,9 @@ export default function MemorySymbolicViewer() {
     async function load() {
       // Preferred source
       try {
-        const res = await fetch("/memory/symbolic_memory.json", { cache: "no-store" });
-        if (res.ok) {
-          const arr = await res.json();
+        const __mm = await loadSymbolicMemory();
+        if (__mm && __mm.type==="json") {
+          const arr = __mm.body;
           if (Array.isArray(arr) && arr.length) {
             const latest = [...arr].sort((a,b)=> new Date(b.ts || b.timestamp || 0) - new Date(a.ts || a.timestamp || 0))[0];
             if (!canceled) setMemory({

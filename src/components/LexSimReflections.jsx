@@ -1,12 +1,25 @@
-
 import { memoryUrl } from '../lib/api';
 import React, { useEffect, useState } from "react";
 
-/**
- * Latest LexSim Reflection card
- * Primary source: /memory/clinical_reflection_log.json (array of {ts|timestamp, text, topic?, clarity?})
- * Fallback:       /memory/reflection-log.txt (legacy lines)
- */
+async function loadFirstAvailableReflections() {
+  try {
+    const r = await fetch("/memory/clinical_reflection_log.json", { cache: "no-store" });
+    if (r.ok) return { type: "json", body: await r.json() };
+  } catch {}
+
+  try {
+    const r = await fetch("/memory/reflection-log.txt", { cache: "no-store" });
+    if (r.ok) return { type: "txt", body: await r.text() };
+  } catch {}
+
+  try {
+    const r = await fetch("/reflection-log.txt", { cache: "no-store" });
+    if (r.ok) return { type: "txt", body: await r.text() };
+  } catch {}
+
+  return null;
+}
+
 export default function LexSimReflections() {
   const [latest, setLatest] = useState(null);
 
@@ -14,45 +27,61 @@ export default function LexSimReflections() {
     let canceled = false;
 
     async function load() {
-      // 1) Try JSON (canonical)
       try {
-        const res = await fetch("/memory/clinical_reflection_log.json", { cache: "no-store" });
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            const item = [...data].sort((a,b) => new Date(b.ts || b.timestamp || 0) - new Date(a.ts || a.timestamp || 0))[0];
-            if (!canceled) setLatest({
-              timestamp: item.ts || item.timestamp || null,
-              topic: item.topic || "symbolic_reflection",
-              clarity: typeof item.clarity === "number" ? item.clarity : undefined,
-              text: item.text || ""
-            });
+        const found = await loadFirstAvailableReflections();
+        if (!found) {
+          if (!canceled) setLatest(null);
+          return;
+        }
+
+        if (found.type === "json") {
+          const arr = Array.isArray(found.body) ? found.body : [];
+          if (arr.length) {
+            const item = [...arr].sort(
+              (a, b) =>
+                new Date(b.ts || b.timestamp || 0) - new Date(a.ts || a.timestamp || 0)
+            )[0];
+
+            if (!canceled) {
+              setLatest({
+                timestamp: item.ts || item.timestamp || null,
+                topic: item.topic || "symbolic_reflection",
+                clarity: typeof item.clarity === "number" ? item.clarity : undefined,
+                text: item.text || ""
+              });
+            }
             return;
           }
         }
-      } catch {}
 
-      // 2) Fallback to legacy TXT
-      try {
-        const txtRes = await fetch("/memory/reflection-log.txt", { cache: "no-store" });
-        const text = await txtRes.text();
-        const lines = text.split(/\\r?\\n/).filter(Boolean);
-        // pick most recent line that looks like a reflection
-        const last = lines.reverse().find(line => line && !line.includes("Ran:"));
-        if (last) {
-          const timeMatch = last.match(/\\[(.*?)\\]/);
-          const timestamp = timeMatch ? timeMatch[1] : null;
-          setLatest({ timestamp, topic: "symbolic_reflection", text: last.replace(/^\\[.*?\\]\\s*/, "") });
-        } else {
-          setLatest(null);
+        if (found.type === "txt") {
+          const text = found.body || "";
+          const lines = text.split(/\r?\n/).filter(Boolean);
+          const last = [...lines].reverse().find(line => line && !line.includes("Ran:"));
+          if (!canceled) {
+            if (last) {
+              const timeMatch = last.match(/\[(.*?)\]/);
+              const timestamp = timeMatch ? timeMatch[1] : null;
+              setLatest({
+                timestamp,
+                topic: "symbolic_reflection",
+                text: last.replace(/^\[.*?\]\s*/, "")
+              });
+            } else {
+              setLatest(null);
+            }
+          }
+          return;
         }
+
+        if (!canceled) setLatest(null);
       } catch {
-        setLatest(null);
+        if (!canceled) setLatest(null);
       }
     }
 
     load();
-    const id = setInterval(load, 5000); // light poll to keep "latest" fresh
+    const id = setInterval(load, 5000);
     return () => { canceled = true; clearInterval(id); };
   }, []);
 

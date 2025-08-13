@@ -1,4 +1,3 @@
-import { memoryUrl } from '../lib/api';
 import React, { useState, useEffect } from "react";
 import { useCaseContext } from "./CaseContext";
 

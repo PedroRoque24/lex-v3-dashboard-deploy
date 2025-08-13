@@ -2,6 +2,29 @@
 import { memoryUrl } from '../lib/api';
 import React, { useEffect, useState } from "react";
 
+async function listFiles(glob) {
+  try {
+    const r = await fetch(`/api/list-files?glob=${encodeURIComponent(glob)}`, { cache: "no-store" });
+    if (!r.ok) return [];
+    return await r.json();
+  } catch { return []; }
+}
+async function loadFirstAvailableDreams() {
+  const exacts = ["shadow_memory/dreams/scored-dreams.json","shadow_memory/scored-dreams.json","shadow_memory/dreams.json"];
+  for (const p of exacts) {
+    try { const r = await fetch(`/memory/${p}`, { cache: "no-store" }); if (r.ok) return await r.json(); } catch {}
+  }
+  const globs = ["shadow_memory/**/dreams/*.json","shadow_memory/**/scored-dreams*.json"];
+  for (const g of globs) {
+    const files = (await listFiles(g)).sort().reverse();
+    for (const f of files) { try { const r = await fetch(`/memory/${f}`, { cache: "no-store" }); if (r.ok) return await r.json(); } catch {} }
+  }
+  try { const r2 = await fetch(`/scored-dreams.json`, { cache: "no-store" }); if (r2.ok) return await r2.json(); } catch {}
+  return [];
+}
+
+
+
 /**
  * DreamLexSimViewer
  * - Loads /memory/scored-dreams.json
