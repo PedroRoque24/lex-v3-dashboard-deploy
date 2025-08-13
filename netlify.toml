@@ -1,0 +1,4 @@
+﻿[[redirects]]
+  from = "/memory/*"
+  to   = "https://web-production-ea504.up.railway.app/api/:splat"
+  status = 200
